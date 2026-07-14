@@ -30,7 +30,8 @@
       "username": "harry",
       "time": "22:14:42 13/7/2026",
       "timestamp": 1783955682231,
-      "status": "approved"
+      "status": "approved",
+      "linkCreatedAt": "22:14:35 13/7/2026"
     },
     {
       "email": "sangtannguyen222@gmail.com",
@@ -39,7 +40,8 @@
       "username": "harry",
       "time": "22:15:02 13/7/2026",
       "timestamp": 1783955702425,
-      "status": "approved"
+      "status": "approved",
+      "linkCreatedAt": "22:14:35 13/7/2026"
     }
   ],
   "lichSuRutTien": [
@@ -74,5 +76,6 @@
   "yeuCau4G": [],
   "thongBao": [],
   "gmailCam": [],
-  "rejectedLinks": []
+  "rejectedLinks": [],
+  "dongBangWeb": false
 }
