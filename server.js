@@ -14,6 +14,8 @@ app.use(bodyParser.json({ limit: '10mb' }));
 const DATA_FILE = path.join(__dirname, 'dulieu.json');
 const ADMIN_PASSWORD = 'harry0666';
 
+function fmt(n) { return (n || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+
 function docDuLieu() {
     try {
         if (!fs.existsSync(DATA_FILE)) {
@@ -26,15 +28,19 @@ function docDuLieu() {
                 yeuCau4G: [],
                 thongBao: [],
                 gmailCam: [],
-                rejectedLinks: []
+                rejectedLinks: [],
+                dongBangWeb: false
             };
             fs.writeFileSync(DATA_FILE, JSON.stringify(init, null, 2));
             return init;
         }
-        return JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+        const data = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+        // Đảm bảo có trường dongBangWeb
+        if (data.dongBangWeb === undefined) data.dongBangWeb = false;
+        return data;
     } catch (e) {
         console.error('Lỗi đọc dữ liệu:', e);
-        const init = { nguoiDung: [], linkVuot: [], lichSuLink: [], lichSuRutTien: [], yeuCauXacThucSDT: [], yeuCau4G: [], thongBao: [], gmailCam: [], rejectedLinks: [] };
+        const init = { nguoiDung: [], linkVuot: [], lichSuLink: [], lichSuRutTien: [], yeuCauXacThucSDT: [], yeuCau4G: [], thongBao: [], gmailCam: [], rejectedLinks: [], dongBangWeb: false };
         fs.writeFileSync(DATA_FILE, JSON.stringify(init, null, 2));
         return init;
     }
@@ -62,6 +68,12 @@ app.get('/', (req, res) => {
 
 app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'admin.html'));
+});
+
+// ===== API TRẠNG THÁI WEB (ĐÓNG BĂNG) =====
+app.get('/api/trang-thai-web', (req, res) => {
+    const data = docDuLieu();
+    res.json({ dongBang: data.dongBangWeb || false });
 });
 
 // ===== API ĐĂNG KÝ =====
@@ -217,7 +229,6 @@ app.get('/api/admin/data', (req, res) => {
 app.post('/api/admin/them-link', (req, res) => {
     const { name, url, url2, reward } = req.body;
     const data = docDuLieu();
-    // KHÔNG kiểm tra trùng tên nữa - cho phép tạo link trùng tên với createdAt mới
     data.linkVuot.push({ 
         name, url, url2: url2 || null, 
         reward: parseInt(reward) || 300, 
@@ -350,6 +361,30 @@ app.post('/api/admin/xoa-user', (req, res) => {
     if (ban) data.gmailCam.push(email);
     ghiDuLieu(data);
     res.json({ success: true });
+});
+
+// ===== API ADMIN - HOÀN TIỀN =====
+app.post('/api/admin/hoan-tien', (req, res) => {
+    const { email, amount } = req.body;
+    if (!email || !amount || parseInt(amount) <= 0) {
+        return res.json({ success: false, message: 'Vui lòng nhập đầy đủ thông tin hợp lệ.' });
+    }
+    const data = docDuLieu();
+    const user = data.nguoiDung.find(u => u.email === email);
+    if (!user) return res.json({ success: false, message: 'Không tìm thấy người dùng với Gmail này.' });
+    const soTien = parseInt(amount);
+    user.balance = (user.balance || 0) + soTien;
+    ghiDuLieu(data);
+    res.json({ success: true, message: `Đã hoàn ${fmt(soTien)}đ cho ${email}. Số dư mới: ${fmt(user.balance)}đ` });
+});
+
+// ===== API ADMIN - ĐÓNG BĂNG WEB =====
+app.post('/api/admin/dong-bang-web', (req, res) => {
+    const { dongBang } = req.body;
+    const data = docDuLieu();
+    data.dongBangWeb = dongBang === true;
+    ghiDuLieu(data);
+    res.json({ success: true, dongBang: data.dongBangWeb });
 });
 
 // ===== KHỞI ĐỘNG SERVER =====
