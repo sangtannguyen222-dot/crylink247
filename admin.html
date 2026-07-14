@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crylink - Web Quản Lí</title>
+    <title>Crylink - Web Quản Lí Admin</title>
     <style>
         :root {
             --bg: #060b1a;
@@ -28,8 +28,6 @@
             color: var(--text);
             overflow-x: hidden;
         }
-
-        /* Animated Background */
         .bg-animated { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .bg-orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.1; animation: orbFloat 18s ease-in-out infinite; }
         .bg-orb:nth-child(1) { width: 500px; height: 500px; background: radial-gradient(circle, #3b82f6, transparent); top: -150px; left: -100px; animation-delay: 0s; }
@@ -39,7 +37,6 @@
         .bg-grid { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px); background-size: 50px 50px; animation: gridMove 25s linear infinite; }
         @keyframes gridMove { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, 50px); } }
 
-        /* Header */
         .admin-header {
             background: rgba(10, 20, 45, 0.78);
             backdrop-filter: blur(25px);
@@ -84,273 +81,70 @@
             align-items: center;
             gap: 6px;
         }
-        .btn-outline {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1.5px solid rgba(255, 255, 255, 0.18);
-        }
-        .btn-outline:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-        }
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 30px rgba(30, 80, 200, 0.4);
-        }
-        .btn-success {
-            background: linear-gradient(135deg, #16a34a, #15803d);
-        }
-        .btn-success:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 30px rgba(22, 163, 74, 0.4);
-        }
-        .btn-danger {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-        }
-        .btn-danger:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 30px rgba(220, 38, 38, 0.4);
-        }
-        .btn-warning {
-            background: linear-gradient(135deg, #d97706, #b45309);
-        }
-        .btn-sm {
-            padding: 7px 14px;
-            font-size: 11px;
-            border-radius: 8px;
-        }
+        .btn-outline { background: rgba(255, 255, 255, 0.04); border: 1.5px solid rgba(255, 255, 255, 0.18); }
+        .btn-outline:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); }
+        .btn-primary { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(30, 80, 200, 0.4); }
+        .btn-success { background: linear-gradient(135deg, #16a34a, #15803d); }
+        .btn-success:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(22, 163, 74, 0.4); }
+        .btn-danger { background: linear-gradient(135deg, #dc2626, #b91c1c); }
+        .btn-danger:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(220, 38, 38, 0.4); }
+        .btn-warning { background: linear-gradient(135deg, #d97706, #b45309); }
+        .btn-sm { padding: 7px 14px; font-size: 11px; border-radius: 8px; }
 
-        /* Container */
-        .admin-container {
-            max-width: 1350px;
-            margin: 0 auto;
-            padding: 24px;
-            position: relative;
-            z-index: 1;
-        }
+        .admin-container { max-width: 1350px; margin: 0 auto; padding: 24px; position: relative; z-index: 1; }
 
-        /* Menu Grid */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-            gap: 14px;
-            margin-bottom: 30px;
-        }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; margin-bottom: 30px; }
         .menu-card {
-            background: var(--card);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1.5px solid var(--border);
-            border-radius: 18px;
-            padding: 22px 14px;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--t);
-            position: relative;
-            overflow: hidden;
+            background: var(--card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1.5px solid var(--border); border-radius: 18px; padding: 22px 14px; text-align: center;
+            cursor: pointer; transition: var(--t); position: relative; overflow: hidden;
         }
-        .menu-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent));
-            opacity: 0;
-            transition: var(--t);
-        }
+        .menu-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent)); opacity: 0; transition: var(--t); }
         .menu-card:hover::before { opacity: 1; }
-        .menu-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(100, 160, 220, 0.5);
-            box-shadow: 0 18px 35px rgba(30, 80, 200, 0.2);
-        }
-        .menu-card .card-icon {
-            font-size: 38px;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-        .menu-card .card-title {
-            font-size: 13px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            position: relative;
-            z-index: 1;
-        }
-        .menu-card .badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-            color: #fff;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 4px 9px;
-            border-radius: 15px;
-            animation: badgePulse 2s ease-in-out infinite;
-            z-index: 2;
-        }
+        .menu-card:hover { transform: translateY(-6px); border-color: rgba(100, 160, 220, 0.5); box-shadow: 0 18px 35px rgba(30, 80, 200, 0.2); }
+        .menu-card .card-icon { font-size: 38px; margin-bottom: 10px; position: relative; z-index: 1; }
+        .menu-card .card-title { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; position: relative; z-index: 1; }
+        .menu-card .badge { position: absolute; top: 10px; right: 10px; background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; font-size: 10px; font-weight: 700; padding: 4px 9px; border-radius: 15px; animation: badgePulse 2s ease-in-out infinite; z-index: 2; }
         @keyframes badgePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
 
-        /* Panels */
         .panel {
-            background: var(--card);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1.5px solid var(--border);
-            border-radius: 22px;
-            padding: 30px;
-            display: none;
-            animation: panelIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            background: var(--card); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1.5px solid var(--border); border-radius: 22px; padding: 30px;
+            display: none; animation: panelIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .panel.active { display: block; }
         @keyframes panelIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .panel h2 {
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 6px;
-            letter-spacing: 1px;
-        }
-        .panel .section-subtitle {
-            color: var(--text2);
-            font-size: 12px;
-            margin-bottom: 24px;
-            letter-spacing: 0.5px;
-        }
+        .panel h2 { font-size: 22px; font-weight: 800; margin-bottom: 6px; letter-spacing: 1px; }
+        .panel .section-subtitle { color: var(--text2); font-size: 12px; margin-bottom: 24px; letter-spacing: 0.5px; }
 
-        /* Form */
         .form-group { margin-bottom: 18px; }
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            color: var(--text2);
-            font-weight: 600;
-            font-size: 12px;
-            letter-spacing: 0.5px;
-        }
+        .form-group label { display: block; margin-bottom: 6px; color: var(--text2); font-weight: 600; font-size: 12px; letter-spacing: 0.5px; }
         .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 13px 16px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: #fff;
-            font-size: 14px;
-            outline: none;
-            transition: var(--t);
-            font-family: inherit;
-            resize: vertical;
+            width: 100%; padding: 13px 16px; background: rgba(255, 255, 255, 0.04);
+            border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; color: #fff;
+            font-size: 14px; outline: none; transition: var(--t); font-family: inherit; resize: vertical;
         }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
-        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); box-shadow: 0 0 25px rgba(59, 130, 246, 0.2); }
         .form-group select option { background: #1a1f3a; color: #fff; }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-        }
-        .form-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 24px;
-            flex-wrap: wrap;
-        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .form-actions { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
 
-        /* Table */
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            margin-top: 10px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 700px;
-        }
-        th {
-            text-align: left;
-            padding: 14px 16px;
-            background: rgba(59, 130, 246, 0.1);
-            color: #93c5fd;
-            font-weight: 700;
-            font-size: 11px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        td {
-            padding: 13px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.85);
-        }
+        .table-wrapper { overflow-x: auto; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.06); margin-top: 10px; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        th { text-align: left; padding: 14px 16px; background: rgba(59, 130, 246, 0.1); color: #93c5fd; font-weight: 700; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+        td { padding: 13px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); font-size: 13px; color: rgba(255, 255, 255, 0.85); }
         tr:hover td { background: rgba(255, 255, 255, 0.02); }
-        .empty-state {
-            text-align: center;
-            padding: 50px 20px;
-            color: var(--text2);
-            font-size: 15px;
-        }
-        .empty-state .empty-icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-            display: block;
-        }
+        .empty-state { text-align: center; padding: 50px 20px; color: var(--text2); font-size: 15px; }
+        .empty-state .empty-icon { font-size: 60px; margin-bottom: 15px; display: block; }
 
-        /* Tags */
-        .tag {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-        .tag-pending {
-            background: rgba(245, 158, 11, 0.15);
-            color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.35);
-        }
-        .tag-approved {
-            background: rgba(34, 197, 94, 0.12);
-            color: var(--success);
-            border: 1px solid rgba(34, 197, 94, 0.35);
-        }
-        .tag-rejected {
-            background: rgba(239, 68, 68, 0.12);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.35);
-        }
+        .tag { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
+        .tag-pending { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.35); }
+        .tag-approved { background: rgba(34, 197, 94, 0.12); color: var(--success); border: 1px solid rgba(34, 197, 94, 0.35); }
+        .tag-rejected { background: rgba(239, 68, 68, 0.12); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.35); }
 
-        /* Toast */
-        .toast-container {
-            position: fixed;
-            top: 22px;
-            right: 22px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .toast {
-            padding: 13px 22px;
-            border-radius: 12px;
-            color: #fff;
-            font-weight: 600;
-            font-size: 13px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5);
-            animation: slideIn 0.4s ease, slideOut 0.4s ease 2.8s forwards;
-            max-width: 380px;
-            letter-spacing: 0.5px;
-        }
+        .toast-container { position: fixed; top: 22px; right: 22px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
+        .toast { padding: 13px 22px; border-radius: 12px; color: #fff; font-weight: 600; font-size: 13px; backdrop-filter: blur(20px); box-shadow: 0 14px 30px rgba(0, 0, 0, 0.5); animation: slideIn 0.4s ease, slideOut 0.4s ease 2.8s forwards; max-width: 380px; letter-spacing: 0.5px; }
         .toast-success { background: rgba(34, 197, 94, 0.85); border: 1px solid rgba(34, 197, 94, 0.4); }
         .toast-error { background: rgba(239, 68, 68, 0.85); border: 1px solid rgba(239, 68, 68, 0.4); }
         .toast-info { background: rgba(59, 130, 246, 0.85); border: 1px solid rgba(59, 130, 246, 0.4); }
@@ -358,49 +152,18 @@
         @keyframes slideIn { from { opacity: 0; transform: translateX(80px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes slideOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(80px); } }
 
-        /* Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(8px);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-        }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(8px); z-index: 2000; justify-content: center; align-items: center; }
         .modal-overlay.active { display: flex; }
-        .modal-box {
-            background: rgba(15, 25, 60, 0.96);
-            border-radius: 22px;
-            padding: 32px;
-            width: 460px;
-            max-width: 94%;
-            border: 1.5px solid var(--border);
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
-            animation: modalIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-            max-height: 85vh;
-            overflow-y: auto;
-        }
+        .modal-box { background: rgba(15, 25, 60, 0.96); border-radius: 22px; padding: 32px; width: 460px; max-width: 94%; border: 1.5px solid var(--border); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8); animation: modalIn 0.45s cubic-bezier(0.16, 1, 0.3, 1); max-height: 85vh; overflow-y: auto; position: relative; }
         @keyframes modalIn { from { opacity: 0; transform: scale(0.85) translateY(-40px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         .modal-box h3 { color: #fff; text-align: center; margin-bottom: 16px; font-size: 22px; font-weight: 800; }
-        .modal-box .close-btn {
-            position: absolute;
-            top: 14px; right: 18px;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 24px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--t);
-        }
+        .modal-box .close-btn { position: absolute; top: 14px; right: 18px; color: rgba(255, 255, 255, 0.5); font-size: 24px; cursor: pointer; background: none; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--t); }
         .modal-box .close-btn:hover { color: var(--danger); background: rgba(255, 255, 255, 0.06); transform: rotate(90deg); }
+
+        .dongbang-status { text-align: center; padding: 30px; }
+        .dongbang-status .status-icon { font-size: 80px; margin-bottom: 20px; }
+        .dongbang-status h3 { margin-bottom: 20px; }
+        .dongbang-buttons { display: flex; gap: 15px; justify-content: center; }
 
         @media (max-width: 768px) {
             .menu-grid { grid-template-columns: repeat(2, 1fr); }
@@ -414,15 +177,11 @@
     </style>
 </head>
 <body>
-    <!-- Animated Background -->
     <div class="bg-animated">
-        <div class="bg-orb"></div>
-        <div class="bg-orb"></div>
-        <div class="bg-orb"></div>
+        <div class="bg-orb"></div><div class="bg-orb"></div><div class="bg-orb"></div>
         <div class="bg-grid"></div>
     </div>
 
-    <!-- Header -->
     <header class="admin-header">
         <div class="logo-group">
             <h1>Crylink</h1>
@@ -435,7 +194,6 @@
         </div>
     </header>
 
-    <!-- Container -->
     <div class="admin-container" id="adminContainer">
         <!-- Login -->
         <div id="loginBox" style="max-width:400px;margin:100px auto;background:var(--card);backdrop-filter:blur(25px);border:1.5px solid var(--border);border-radius:22px;padding:40px;text-align:center;animation:panelIn 0.5s ease;">
@@ -445,21 +203,22 @@
             <p style="color:var(--danger);margin-top:14px;font-size:13px;" id="loginError"></p>
         </div>
 
-        <!-- Main Content (hidden initially) -->
+        <!-- Main Content -->
         <div id="mainContent" style="display:none;">
-            <!-- Menu Grid -->
             <div class="menu-grid">
-                <div class="menu-card" onclick="showPanel('addLink')"><div class="card-icon">🔗</div><div class="card-title">Thêm link</div></div>
-                <div class="menu-card" onclick="showPanel('linkList')"><div class="card-icon">📋</div><div class="card-title">Danh sách link</div></div>
-                <div class="menu-card" onclick="showPanel('userList')"><div class="card-icon">👥</div><div class="card-title">Người dùng</div></div>
-                <div class="menu-card" onclick="showPanel('notif')"><div class="card-icon">📢</div><div class="card-title">Thông báo</div></div>
-                <div class="menu-card" onclick="showPanel('approveLink')" id="appLinkCard"><div class="card-icon">✅</div><div class="card-title">Duyệt link</div></div>
-                <div class="menu-card" onclick="showPanel('approveWD')" id="appWDCard"><div class="card-icon">💰</div><div class="card-title">Duyệt rút tiền</div></div>
-                <div class="menu-card" onclick="showPanel('approvePhone')" id="appPhoneCard"><div class="card-icon">📱</div><div class="card-title">Duyệt SĐT</div></div>
-                <div class="menu-card" onclick="showPanel('approve4G')"><div class="card-icon">⚡</div><div class="card-title">Duyệt 4G</div></div>
+                <div class="menu-card" onclick="showPanel('addLink')"><div class="card-icon">🔗</div><div class="card-title">1. Thêm link</div></div>
+                <div class="menu-card" onclick="showPanel('linkList')"><div class="card-icon">📋</div><div class="card-title">2. Danh sách link</div></div>
+                <div class="menu-card" onclick="showPanel('userList')"><div class="card-icon">👥</div><div class="card-title">3. Người dùng</div></div>
+                <div class="menu-card" onclick="showPanel('notif')"><div class="card-icon">📢</div><div class="card-title">4. Thông báo</div></div>
+                <div class="menu-card" onclick="showPanel('approveLink')" id="appLinkCard"><div class="card-icon">✅</div><div class="card-title">5. Duyệt link</div></div>
+                <div class="menu-card" onclick="showPanel('approveWD')" id="appWDCard"><div class="card-icon">💰</div><div class="card-title">6. Duyệt rút tiền</div></div>
+                <div class="menu-card" onclick="showPanel('approvePhone')" id="appPhoneCard"><div class="card-icon">📱</div><div class="card-title">7. Duyệt SĐT</div></div>
+                <div class="menu-card" onclick="showPanel('approve4G')"><div class="card-icon">⚡</div><div class="card-title">8. Duyệt 4G</div></div>
+                <div class="menu-card" onclick="showPanel('hoanTien')"><div class="card-icon">💵</div><div class="card-title">9. Hoàn tiền</div></div>
+                <div class="menu-card" onclick="showPanel('dongBang')" id="dongBangCard"><div class="card-icon">🔒</div><div class="card-title">10. Đóng băng web</div></div>
             </div>
 
-            <!-- Panel: Thêm link -->
+            <!-- Panel 1: Thêm link -->
             <div class="panel" id="panelAddLink">
                 <h2>🔗 Thêm link mới</h2>
                 <p class="section-subtitle">Hỗ trợ 2 link cho mỗi thẻ nhiệm vụ</p>
@@ -475,27 +234,23 @@
                 </div>
             </div>
 
-            <!-- Panel: Danh sách link -->
+            <!-- Panel 2: Danh sách link -->
             <div class="panel" id="panelLinkList">
                 <h2>📋 Danh sách link đã thêm</h2>
                 <p class="section-subtitle">Quản lý tất cả link nhiệm vụ</p>
                 <div class="table-wrapper" id="linkTable"></div>
-                <div class="form-actions">
-                    <button class="btn btn-outline" onclick="hideAllPanels()">← Quay lại</button>
-                </div>
+                <div class="form-actions"><button class="btn btn-outline" onclick="hideAllPanels()">← Quay lại</button></div>
             </div>
 
-            <!-- Panel: Người dùng -->
+            <!-- Panel 3: Người dùng -->
             <div class="panel" id="panelUserList">
                 <h2>👥 Danh sách người dùng</h2>
                 <p class="section-subtitle">Quản lý tất cả tài khoản</p>
                 <div class="table-wrapper" id="userTable"></div>
-                <div class="form-actions">
-                    <button class="btn btn-outline" onclick="hideAllPanels()">← Quay lại</button>
-                </div>
+                <div class="form-actions"><button class="btn btn-outline" onclick="hideAllPanels()">← Quay lại</button></div>
             </div>
 
-            <!-- Panel: Thông báo -->
+            <!-- Panel 4: Thông báo -->
             <div class="panel" id="panelNotif">
                 <h2>📢 Gửi thông báo</h2>
                 <p class="section-subtitle">Gửi thông báo đến tất cả người dùng</p>
@@ -508,37 +263,31 @@
                 <div class="table-wrapper" id="notifHistoryTable"><div class="empty-state">Đang tải...</div></div>
             </div>
 
-            <!-- Panel: Duyệt link -->
+            <!-- Panel 5: Duyệt link -->
             <div class="panel" id="panelApproveLink">
                 <h2>✅ Duyệt link nhiệm vụ</h2>
                 <p class="section-subtitle">Duyệt hoặc từ chối yêu cầu vượt link</p>
                 <div class="table-wrapper" id="appLinkTable"></div>
-                <div class="form-actions">
-                    <button class="btn btn-outline" onclick="hideAllPanels()">← Quay lại</button>
-                </div>
+                <div class="form-actions"><button class="btn btn-outline" onclick="hideAllPanels()">← Quay lại</button></div>
             </div>
 
-            <!-- Panel: Duyệt rút tiền -->
+            <!-- Panel 6: Duyệt rút tiền -->
             <div class="panel" id="panelApproveWD">
                 <h2>💰 Duyệt rút tiền</h2>
                 <p class="section-subtitle">Duyệt hoặc từ chối yêu cầu rút tiền</p>
                 <div class="table-wrapper" id="appWDTable"></div>
-                <div class="form-actions">
-                    <button class="btn btn-outline" onclick="hideAllPanels()">← Quay lại</button>
-                </div>
+                <div class="form-actions"><button class="btn btn-outline" onclick="hideAllPanels()">← Quay lại</button></div>
             </div>
 
-            <!-- Panel: Duyệt SĐT -->
+            <!-- Panel 7: Duyệt SĐT -->
             <div class="panel" id="panelApprovePhone">
                 <h2>📱 Duyệt xác thực số điện thoại</h2>
                 <p class="section-subtitle">Duyệt hoặc từ chối yêu cầu xác thực SĐT</p>
                 <div class="table-wrapper" id="appPhoneTable"></div>
-                <div class="form-actions">
-                    <button class="btn btn-outline" onclick="hideAllPanels()">← Quay lại</button>
-                </div>
+                <div class="form-actions"><button class="btn btn-outline" onclick="hideAllPanels()">← Quay lại</button></div>
             </div>
 
-            <!-- Panel: Duyệt 4G -->
+            <!-- Panel 8: Duyệt 4G -->
             <div class="panel" id="panelApprove4G">
                 <h2>⚡ Duyệt tài khoản 4G</h2>
                 <p class="section-subtitle">Cấp quyền vượt link không giới hạn cho tài khoản</p>
@@ -550,15 +299,42 @@
                 <h3 style="margin-top:28px;margin-bottom:16px;">📋 Danh sách tài khoản đã duyệt 4G</h3>
                 <div class="table-wrapper" id="list4GTable"><div class="empty-state">Đang tải...</div></div>
             </div>
+
+            <!-- Panel 9: Hoàn tiền -->
+            <div class="panel" id="panelHoanTien">
+                <h2>💵 Hoàn tiền cho người dùng</h2>
+                <p class="section-subtitle">Cộng tiền trực tiếp vào tài khoản</p>
+                <div class="form-group"><label>Gmail người nhận</label><input type="email" id="hoanTienEmail" placeholder="Nhập Gmail..."></div>
+                <div class="form-group"><label>Số tiền hoàn (VNĐ)</label><input type="text" id="hoanTienAmount" placeholder="Nhập số tiền..." oninput="this.value=this.value.replace(/[^0-9]/g,'')"></div>
+                <div class="form-actions">
+                    <button class="btn btn-success" onclick="hoanTien()">💸 Hoàn tiền ngay</button>
+                    <button class="btn btn-outline" onclick="hideAllPanels()">← Quay lại</button>
+                </div>
+                <p id="hoanTienMsg" style="margin-top:14px;text-align:center;font-weight:600;"></p>
+            </div>
+
+            <!-- Panel 10: Đóng băng web -->
+            <div class="panel" id="panelDongBang">
+                <h2>🔒 Đóng băng / Mở khóa web</h2>
+                <p class="section-subtitle">Khi tắt OFF, tất cả người dùng sẽ thấy thông báo web đang bảo trì</p>
+                <div class="dongbang-status">
+                    <div class="status-icon" id="dongBangIcon">✅</div>
+                    <h3 style="color:#fff;" id="dongBangStatus">Web đang HOẠT ĐỘNG bình thường</h3>
+                    <div class="dongbang-buttons">
+                        <button class="btn btn-success" id="btnOn" onclick="setDongBang(true)" style="padding:16px 40px;font-size:16px;">🟢 BẬT ON (Hoạt động)</button>
+                        <button class="btn btn-danger" id="btnOff" onclick="setDongBang(false)" style="padding:16px 40px;font-size:16px;">🔴 TẮT OFF (Đóng băng)</button>
+                    </div>
+                </div>
+                <div class="form-actions"><button class="btn btn-outline" onclick="hideAllPanels()">← Quay lại</button></div>
+            </div>
         </div>
     </div>
 
     <!-- Modal for Withdraw Detail -->
     <div class="modal-overlay" id="wdModal">
-        <div class="modal-box" id="wdModalContent" style="position:relative;"></div>
+        <div class="modal-box" id="wdModalContent"></div>
     </div>
 
-    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
@@ -601,7 +377,7 @@
                 updateAllBadges();
                 toast('✅ Đăng nhập thành công!', 'success');
             } else {
-                document.getElementById('loginError').textContent = 'Sai mật khẩu admin!';
+                document.getElementById('loginError').textContent = res.message || 'Sai mật khẩu admin!';
             }
         }
 
@@ -610,7 +386,6 @@
             location.reload();
         }
 
-        // Check login on load
         window.addEventListener('DOMContentLoaded', () => {
             if (sessionStorage.getItem('admin_logged') === '1') {
                 document.getElementById('loginBox').style.display = 'none';
@@ -639,6 +414,7 @@
                 if (id === 'panelApproveWD') renderApproveWD();
                 if (id === 'panelApprovePhone') renderApprovePhone();
                 if (id === 'panelApprove4G') render4GList();
+                if (id === 'panelDongBang') loadDongBang();
             }
             toast('✅ Dữ liệu đã được làm mới!', 'success');
         }
@@ -647,14 +423,10 @@
         function showPanel(name) {
             hideAllPanels();
             const map = {
-                addLink: 'panelAddLink',
-                linkList: 'panelLinkList',
-                userList: 'panelUserList',
-                notif: 'panelNotif',
-                approveLink: 'panelApproveLink',
-                approveWD: 'panelApproveWD',
-                approvePhone: 'panelApprovePhone',
-                approve4G: 'panelApprove4G'
+                addLink: 'panelAddLink', linkList: 'panelLinkList', userList: 'panelUserList',
+                notif: 'panelNotif', approveLink: 'panelApproveLink', approveWD: 'panelApproveWD',
+                approvePhone: 'panelApprovePhone', approve4G: 'panelApprove4G',
+                hoanTien: 'panelHoanTien', dongBang: 'panelDongBang'
             };
             const panel = document.getElementById(map[name]);
             if (panel) {
@@ -666,6 +438,7 @@
                 if (name === 'approveWD') renderApproveWD();
                 if (name === 'approvePhone') renderApprovePhone();
                 if (name === 'approve4G') render4GList();
+                if (name === 'dongBang') loadDongBang();
                 panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
             updateAllBadges();
@@ -679,6 +452,7 @@
             updateBadge('appLinkCard', (adminData.lichSuLink || []).filter(l => l.status === 'pending').length);
             updateBadge('appWDCard', (adminData.lichSuRutTien || []).filter(w => w.status === 'pending').length);
             updateBadge('appPhoneCard', (adminData.yeuCauXacThucSDT || []).filter(p => p.status === 'pending').length);
+            updateBadge('dongBangCard', adminData.dongBangWeb ? 1 : 0);
         }
 
         function updateBadge(cardId, count) {
@@ -692,9 +466,14 @@
                 badge.textContent = count;
                 card.appendChild(badge);
             }
+            // Update icon for dongBang
+            if (cardId === 'dongBangCard') {
+                const icon = card.querySelector('.card-icon');
+                if (icon) icon.textContent = count > 0 ? '🔒' : '✅';
+            }
         }
 
-        // ===== THÊM LINK =====
+        // ===== 1. THÊM LINK =====
         async function saveLink() {
             const name = document.getElementById('linkName').value.trim();
             const url = document.getElementById('linkUrl').value.trim();
@@ -714,7 +493,7 @@
             }
         }
 
-        // ===== DANH SÁCH LINK =====
+        // ===== 2. DANH SÁCH LINK =====
         function renderLinkList() {
             const links = adminData.linkVuot || [];
             const wrapper = document.getElementById('linkTable');
@@ -725,8 +504,7 @@
             let html = `<table><thead><tr><th>#</th><th>Tên link</th><th>Link 1</th><th>Link 2</th><th>Thưởng</th><th>Ngày tạo</th><th>Xóa</th></tr></thead><tbody>`;
             links.forEach((l, i) => {
                 html += `<tr>
-                    <td>${i + 1}</td>
-                    <td><strong>${esc(l.name)}</strong></td>
+                    <td>${i + 1}</td><td><strong>${esc(l.name)}</strong></td>
                     <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(l.url)}</td>
                     <td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(l.url2 || 'Trống')}</td>
                     <td style="color:var(--gold);font-weight:700;">+${fmt(l.reward || 300)}đ</td>
@@ -739,7 +517,7 @@
         }
 
         async function deleteLink(index) {
-            if (!confirm('Bạn có chắc muốn xóa link này? Hành động này không thể hoàn tác.')) return;
+            if (!confirm('Bạn có chắc muốn xóa link này?')) return;
             const res = await api('/api/admin/xoa-link', 'POST', { index });
             if (res.success) {
                 await loadAllData();
@@ -750,7 +528,7 @@
             }
         }
 
-        // ===== NGƯỜI DÙNG =====
+        // ===== 3. NGƯỜI DÙNG =====
         function renderUserList() {
             const users = adminData.nguoiDung || [];
             const wrapper = document.getElementById('userTable');
@@ -762,12 +540,9 @@
             users.forEach((u, i) => {
                 const banned = (adminData.gmailCam || []).includes(u.email);
                 html += `<tr style="${banned ? 'opacity:0.5;text-decoration:line-through;' : ''}">
-                    <td>${i + 1}</td>
-                    <td><strong>${esc(u.username)}</strong>${banned ? ' <span class="tag tag-rejected">BANNED</span>' : ''}</td>
-                    <td>${esc(u.email)}</td>
-                    <td>${esc(u.password)}</td>
-                    <td style="font-size:10px;">${esc(u.token)}</td>
-                    <td>${esc(u.phone || 'Chưa XT')}</td>
+                    <td>${i + 1}</td><td><strong>${esc(u.username)}</strong>${banned ? ' <span class="tag tag-rejected">BANNED</span>' : ''}</td>
+                    <td>${esc(u.email)}</td><td>${esc(u.password)}</td>
+                    <td style="font-size:10px;">${esc(u.token)}</td><td>${esc(u.phone || 'Chưa XT')}</td>
                     <td>${u.verified4G ? '<span class="tag tag-approved">4G</span>' : '<span class="tag tag-pending">Thường</span>'}</td>
                     <td style="color:var(--gold);">${fmt(u.balance || 0)}đ</td>
                     <td style="font-size:11px;">${esc(u.createdAt || '')}</td>
@@ -782,7 +557,7 @@
         }
 
         async function deleteUser(email, ban) {
-            const msg = ban ? 'Bạn có chắc muốn BAN và XÓA tài khoản này? Gmail sẽ bị cấm vĩnh viễn.' : 'Bạn có chắc muốn xóa tài khoản này?';
+            const msg = ban ? 'Bạn có chắc muốn BAN và XÓA tài khoản này?' : 'Bạn có chắc muốn xóa tài khoản này?';
             if (!confirm(msg)) return;
             const res = await api('/api/admin/xoa-user', 'POST', { email, ban });
             if (res.success) {
@@ -794,7 +569,7 @@
             }
         }
 
-        // ===== THÔNG BÁO =====
+        // ===== 4. THÔNG BÁO =====
         async function sendNotif() {
             const message = document.getElementById('notifMsg').value.trim();
             if (!message) { toast('⚠️ Vui lòng nhập nội dung thông báo!', 'error'); return; }
@@ -803,7 +578,7 @@
                 document.getElementById('notifMsg').value = '';
                 await loadAllData();
                 renderNotifHistory();
-                toast('✅ Thông báo đã được gửi đến tất cả người dùng!', 'success');
+                toast('✅ Thông báo đã được gửi!', 'success');
             } else {
                 toast('⚠️ Lỗi khi gửi thông báo!', 'error');
             }
@@ -813,17 +588,12 @@
             const notifs = adminData.thongBao || [];
             const wrapper = document.getElementById('notifHistoryTable');
             if (notifs.length === 0) {
-                wrapper.innerHTML = '<div class="empty-state"><span class="empty-icon">📭</span>Chưa có thông báo nào được gửi.</div>';
+                wrapper.innerHTML = '<div class="empty-state"><span class="empty-icon">📭</span>Chưa có thông báo nào.</div>';
                 return;
             }
             let html = `<table><thead><tr><th>#</th><th>Nội dung</th><th>Thời gian</th><th>Xóa</th></tr></thead><tbody>`;
             notifs.slice().reverse().forEach((n, i) => {
-                html += `<tr>
-                    <td>${i + 1}</td>
-                    <td>${esc(n.message)}</td>
-                    <td style="font-size:11px;">${esc(n.time)}</td>
-                    <td><button class="btn btn-danger btn-sm" onclick="deleteNotif('${n.id}')">🗑</button></td>
-                </tr>`;
+                html += `<tr><td>${i + 1}</td><td>${esc(n.message)}</td><td style="font-size:11px;">${esc(n.time)}</td><td><button class="btn btn-danger btn-sm" onclick="deleteNotif('${n.id}')">🗑</button></td></tr>`;
             });
             html += '</tbody></table>';
             wrapper.innerHTML = html;
@@ -841,30 +611,21 @@
             }
         }
 
-        // ===== DUYỆT LINK =====
+        // ===== 5. DUYỆT LINK =====
         function renderApproveLink() {
             const subs = (adminData.lichSuLink || []).filter(s => s.status !== 'approved');
             const wrapper = document.getElementById('appLinkTable');
             if (subs.length === 0) {
                 wrapper.innerHTML = '<div class="empty-state"><span class="empty-icon">✅</span>Không có yêu cầu duyệt link nào.</div>';
-                updateAllBadges();
-                return;
+                updateAllBadges(); return;
             }
             let html = `<table><thead><tr><th>#</th><th>User</th><th>Gmail</th><th>Link</th><th>Thời gian</th><th>Trạng thái</th><th>Hành động</th></tr></thead><tbody>`;
             subs.forEach((s, i) => {
                 const tag = s.status === 'pending' ? '<span class="tag tag-pending">⏳ Chờ duyệt</span>' : '<span class="tag tag-rejected">❌ Đã từ chối</span>';
                 const act = s.status === 'pending' ? `
                     <button class="btn btn-success btn-sm" onclick="approveLink('${esc(s.email)}','${esc(s.linkName)}','${esc(s.time)}')">✅ Duyệt</button>
-                    <button class="btn btn-danger btn-sm" onclick="rejectLink('${esc(s.email)}','${esc(s.linkName)}','${esc(s.time)}')">❌ Từ chối</button>` : '<span style="font-size:11px;">Đã xử lý</span>';
-                html += `<tr>
-                    <td>${i + 1}</td>
-                    <td>${esc(s.username)}</td>
-                    <td>${esc(s.email)}</td>
-                    <td>${esc(s.linkName)}</td>
-                    <td style="font-size:11px;">${esc(s.time)}</td>
-                    <td>${tag}</td>
-                    <td style="display:flex;gap:6px;">${act}</td>
-                </tr>`;
+                    <button class="btn btn-danger btn-sm" onclick="rejectLink('${esc(s.email)}','${esc(s.linkName)}','${esc(s.time)}')">❌ Từ chối</button>` : 'Đã xử lý';
+                html += `<tr><td>${i + 1}</td><td>${esc(s.username)}</td><td>${esc(s.email)}</td><td>${esc(s.linkName)}</td><td style="font-size:11px;">${esc(s.time)}</td><td>${tag}</td><td style="display:flex;gap:6px;">${act}</td></tr>`;
             });
             html += '</tbody></table>';
             wrapper.innerHTML = html;
@@ -873,53 +634,33 @@
 
         async function approveLink(email, linkName, time) {
             const res = await api('/api/admin/duyet-link', 'POST', { email, linkName, time, approved: true });
-            if (res.success) {
-                await loadAllData();
-                renderApproveLink();
-                toast('✅ Đã duyệt link thành công!', 'success');
-            } else {
-                toast('⚠️ ' + (res.message || 'Lỗi!'), 'error');
-            }
+            if (res.success) { await loadAllData(); renderApproveLink(); toast('✅ Đã duyệt link!', 'success'); }
+            else { toast('⚠️ ' + (res.message || 'Lỗi!'), 'error'); }
         }
 
         async function rejectLink(email, linkName, time) {
             if (!confirm('Từ chối yêu cầu này?')) return;
             const res = await api('/api/admin/duyet-link', 'POST', { email, linkName, time, approved: false });
-            if (res.success) {
-                await loadAllData();
-                renderApproveLink();
-                toast('❌ Đã từ chối yêu cầu!', 'error');
-            } else {
-                toast('⚠️ ' + (res.message || 'Lỗi!'), 'error');
-            }
+            if (res.success) { await loadAllData(); renderApproveLink(); toast('❌ Đã từ chối!', 'error'); }
+            else { toast('⚠️ ' + (res.message || 'Lỗi!'), 'error'); }
         }
 
-        // ===== DUYỆT RÚT TIỀN =====
+        // ===== 6. DUYỆT RÚT TIỀN =====
         function renderApproveWD() {
             const wds = (adminData.lichSuRutTien || []).filter(w => w.status !== 'approved');
             const wrapper = document.getElementById('appWDTable');
             if (wds.length === 0) {
                 wrapper.innerHTML = '<div class="empty-state"><span class="empty-icon">💰</span>Không có yêu cầu rút tiền nào.</div>';
-                updateAllBadges();
-                return;
+                updateAllBadges(); return;
             }
-            let html = `<table><thead><tr><th>#</th><th>User</th><th>Loại</th><th>Chi tiết</th><th>Số tiền</th><th>Thời gian</th><th>Trạng thái</th><th>Hành động</th></tr></thead><tbody>`;
+            let html = `<table><thead><tr><th>#</th><th>User</th><th>Loại</th><th>Chi tiết</th><th>Số tiền</th><th>Thời gian</th><th>TT</th><th>Hành động</th></tr></thead><tbody>`;
             wds.forEach((w, i) => {
-                const tag = w.status === 'pending' ? '<span class="tag tag-pending">⏳ Chờ duyệt</span>' : '<span class="tag tag-rejected">❌ Đã từ chối</span>';
+                const tag = w.status === 'pending' ? '<span class="tag tag-pending">⏳ Chờ</span>' : '<span class="tag tag-rejected">❌ Từ chối</span>';
                 let detail = w.type === 'bank' ? `${w.bank} - ${w.account} - ${w.owner}` : `Thẻ ${w.cardType}`;
                 const act = w.status === 'pending' ? `
                     <button class="btn btn-success btn-sm" onclick="openWDModal('${esc(w.email)}','${esc(w.time)}')">🔍 Duyệt</button>
-                    <button class="btn btn-danger btn-sm" onclick="rejectWD('${esc(w.email)}','${esc(w.time)}')">❌ Từ chối</button>` : '<span style="font-size:11px;">Đã xử lý</span>';
-                html += `<tr>
-                    <td>${i + 1}</td>
-                    <td>${esc(w.username)}</td>
-                    <td>${w.type === 'bank' ? '🏦 CK' : '📱 Thẻ'}</td>
-                    <td>${esc(detail)}</td>
-                    <td style="color:var(--gold);font-weight:700;">${fmt(w.amount)}đ</td>
-                    <td style="font-size:11px;">${esc(w.time)}</td>
-                    <td>${tag}</td>
-                    <td style="display:flex;gap:6px;">${act}</td>
-                </tr>`;
+                    <button class="btn btn-danger btn-sm" onclick="rejectWD('${esc(w.email)}','${esc(w.time)}')">❌ Từ chối</button>` : 'Đã xử lý';
+                html += `<tr><td>${i + 1}</td><td>${esc(w.username)}</td><td>${w.type === 'bank' ? '🏦 CK' : '📱 Thẻ'}</td><td>${esc(detail)}</td><td style="color:var(--gold);">${fmt(w.amount)}đ</td><td style="font-size:11px;">${esc(w.time)}</td><td>${tag}</td><td style="display:flex;gap:6px;">${act}</td></tr>`;
             });
             html += '</tbody></table>';
             wrapper.innerHTML = html;
@@ -933,11 +674,11 @@
             document.getElementById('wdModalContent').innerHTML = `
                 <button class="close-btn" onclick="document.getElementById('wdModal').classList.remove('active')">✕</button>
                 <h3>💸 Duyệt rút tiền</h3>
-                <p style="margin-bottom:6px;"><strong>User:</strong> ${esc(wd.username)} (${esc(wd.email)})</p>
-                <p style="margin-bottom:6px;"><strong>Loại:</strong> ${wd.type === 'bank' ? '🏦 Chuyển khoản' : '📱 Thẻ cào'}</p>
-                <p style="margin-bottom:6px;"><strong>Số tiền:</strong> <span style="color:var(--gold);font-weight:700;">${fmt(wd.amount)}đ</span></p>
-                ${wd.type === 'bank' ? `<p style="margin-bottom:6px;"><strong>Ngân hàng:</strong> ${esc(wd.bank)}</p><p style="margin-bottom:6px;"><strong>STK:</strong> ${esc(wd.account)}</p><p style="margin-bottom:6px;"><strong>Chủ TK:</strong> ${esc(wd.owner)}</p>` : ''}
-                ${isCard ? `<div class="form-group"><label>Seri thẻ</label><input id="mdSeri" placeholder="Nhập seri thẻ"></div><div class="form-group"><label>Mã thẻ</label><input id="mdCode" placeholder="Nhập mã thẻ"></div>` : ''}
+                <p><strong>User:</strong> ${esc(wd.username)} (${esc(wd.email)})</p>
+                <p><strong>Loại:</strong> ${wd.type === 'bank' ? '🏦 Chuyển khoản' : '📱 Thẻ cào'}</p>
+                <p><strong>Số tiền:</strong> <span style="color:var(--gold);">${fmt(wd.amount)}đ</span></p>
+                ${wd.type === 'bank' ? `<p><strong>NH:</strong> ${esc(wd.bank)} | <strong>STK:</strong> ${esc(wd.account)} | <strong>Chủ TK:</strong> ${esc(wd.owner)}</p>` : ''}
+                ${isCard ? `<div class="form-group"><label>Seri thẻ</label><input id="mdSeri" placeholder="Nhập seri"></div><div class="form-group"><label>Mã thẻ</label><input id="mdCode" placeholder="Nhập mã thẻ"></div>` : ''}
                 <div class="form-group"><label>Ghi chú</label><textarea id="mdNote" placeholder="Ghi chú (tùy chọn)"></textarea></div>
                 <div style="display:flex;gap:10px;margin-top:16px;">
                     <button class="btn btn-success" style="flex:1;" onclick="approveWD('${esc(email)}','${esc(time)}', ${isCard})">✅ Duyệt</button>
@@ -950,52 +691,38 @@
             const seri = isCard ? (document.getElementById('mdSeri')?.value.trim() || '') : '';
             const code = isCard ? (document.getElementById('mdCode')?.value.trim() || '') : '';
             const note = document.getElementById('mdNote')?.value.trim() || '';
-            if (isCard && (!seri || !code)) { toast('⚠️ Vui lòng nhập đầy đủ Seri và Mã thẻ!', 'error'); return; }
+            if (isCard && (!seri || !code)) { toast('⚠️ Nhập Seri và Mã thẻ!', 'error'); return; }
             const res = await api('/api/admin/duyet-rut-tien', 'POST', { email, time, approved: true, note, seri, code });
             if (res.success) {
                 document.getElementById('wdModal').classList.remove('active');
-                await loadAllData();
-                renderApproveWD();
-                toast('✅ Đã duyệt rút tiền thành công!', 'success');
-            } else {
-                toast('⚠️ ' + (res.message || 'Lỗi!'), 'error');
-            }
+                await loadAllData(); renderApproveWD();
+                toast('✅ Đã duyệt rút tiền!', 'success');
+            } else { toast('⚠️ ' + (res.message || 'Lỗi!'), 'error'); }
         }
 
         async function rejectWD(email, time) {
-            if (!confirm('Từ chối yêu cầu rút tiền này? Tiền sẽ được hoàn lại cho user.')) return;
-            const note = prompt('Ghi chú từ chối (tùy chọn):') || '';
+            if (!confirm('Từ chối? Tiền sẽ hoàn lại cho user.')) return;
+            const note = prompt('Ghi chú (tùy chọn):') || '';
             const res = await api('/api/admin/duyet-rut-tien', 'POST', { email, time, approved: false, note });
-            if (res.success) {
-                await loadAllData();
-                renderApproveWD();
-                toast('❌ Đã từ chối yêu cầu rút tiền!', 'error');
-            } else {
-                toast('⚠️ ' + (res.message || 'Lỗi!'), 'error');
-            }
+            if (res.success) { await loadAllData(); renderApproveWD(); toast('❌ Đã từ chối!', 'error'); }
+            else { toast('⚠️ ' + (res.message || 'Lỗi!'), 'error'); }
         }
 
-        // ===== DUYỆT SĐT =====
+        // ===== 7. DUYỆT SĐT =====
         function renderApprovePhone() {
             const phones = (adminData.yeuCauXacThucSDT || []).filter(p => p.status === 'pending');
             const wrapper = document.getElementById('appPhoneTable');
             if (phones.length === 0) {
-                wrapper.innerHTML = '<div class="empty-state"><span class="empty-icon">📱</span>Không có yêu cầu xác thực SĐT nào.</div>';
-                updateAllBadges();
-                return;
+                wrapper.innerHTML = '<div class="empty-state"><span class="empty-icon">📱</span>Không có yêu cầu nào.</div>';
+                updateAllBadges(); return;
             }
-            let html = `<table><thead><tr><th>#</th><th>Gmail</th><th>Số điện thoại</th><th>Thời gian</th><th>Hành động</th></tr></thead><tbody>`;
+            let html = `<table><thead><tr><th>#</th><th>Gmail</th><th>SĐT</th><th>Thời gian</th><th>Hành động</th></tr></thead><tbody>`;
             phones.forEach((p, i) => {
-                html += `<tr>
-                    <td>${i + 1}</td>
-                    <td>${esc(p.email)}</td>
-                    <td><strong>${esc(p.phone)}</strong></td>
-                    <td style="font-size:11px;">${esc(p.time)}</td>
+                html += `<tr><td>${i + 1}</td><td>${esc(p.email)}</td><td><strong>${esc(p.phone)}</strong></td><td style="font-size:11px;">${esc(p.time)}</td>
                     <td style="display:flex;gap:6px;">
                         <button class="btn btn-success btn-sm" onclick="approvePhone('${esc(p.email)}','${esc(p.phone)}','${esc(p.time)}')">✅ Duyệt</button>
                         <button class="btn btn-danger btn-sm" onclick="rejectPhone('${esc(p.email)}','${esc(p.time)}')">❌ Từ chối</button>
-                    </td>
-                </tr>`;
+                    </td></tr>`;
             });
             html += '</tbody></table>';
             wrapper.innerHTML = html;
@@ -1004,40 +731,27 @@
 
         async function approvePhone(email, phone, time) {
             const res = await api('/api/admin/duyet-sdt', 'POST', { email, phone, time, approved: true });
-            if (res.success) {
-                await loadAllData();
-                renderApprovePhone();
-                toast('✅ Đã duyệt SĐT!', 'success');
-            } else {
-                toast('⚠️ ' + (res.message || 'Lỗi!'), 'error');
-            }
+            if (res.success) { await loadAllData(); renderApprovePhone(); toast('✅ Đã duyệt SĐT!', 'success'); }
+            else { toast('⚠️ ' + (res.message || 'Lỗi!'), 'error'); }
         }
 
         async function rejectPhone(email, time) {
-            if (!confirm('Từ chối yêu cầu xác thực SĐT này?')) return;
+            if (!confirm('Từ chối?')) return;
             const res = await api('/api/admin/duyet-sdt', 'POST', { email, phone: '', time, approved: false });
-            if (res.success) {
-                await loadAllData();
-                renderApprovePhone();
-                toast('❌ Đã từ chối!', 'error');
-            } else {
-                toast('⚠️ ' + (res.message || 'Lỗi!'), 'error');
-            }
+            if (res.success) { await loadAllData(); renderApprovePhone(); toast('❌ Đã từ chối!', 'error'); }
+            else { toast('⚠️ ' + (res.message || 'Lỗi!'), 'error'); }
         }
 
-        // ===== DUYỆT 4G =====
+        // ===== 8. DUYỆT 4G =====
         async function approve4G() {
             const email = document.getElementById('email4G').value.trim();
-            if (!email) { toast('⚠️ Vui lòng nhập Gmail!', 'error'); return; }
+            if (!email) { toast('⚠️ Nhập Gmail!', 'error'); return; }
             const res = await api('/api/admin/duyet-4g', 'POST', { email });
             if (res.success) {
                 document.getElementById('email4G').value = '';
-                await loadAllData();
-                render4GList();
-                toast('✅ Đã duyệt 4G cho tài khoản!', 'success');
-            } else {
-                toast('⚠️ ' + (res.message || 'Lỗi!'), 'error');
-            }
+                await loadAllData(); render4GList();
+                toast('✅ Đã duyệt 4G!', 'success');
+            } else { toast('⚠️ ' + (res.message || 'Lỗi!'), 'error'); }
         }
 
         function render4GList() {
@@ -1047,13 +761,9 @@
                 wrapper.innerHTML = '<div class="empty-state"><span class="empty-icon">⚡</span>Chưa có tài khoản 4G nào.</div>';
                 return;
             }
-            let html = `<table><thead><tr><th>#</th><th>Gmail</th><th>Hành động</th></tr></thead><tbody>`;
+            let html = `<table><thead><tr><th>#</th><th>Gmail</th><th>Xóa</th></tr></thead><tbody>`;
             list.forEach((e, i) => {
-                html += `<tr>
-                    <td>${i + 1}</td>
-                    <td>${esc(e)}</td>
-                    <td><button class="btn btn-danger btn-sm" onclick="remove4G('${esc(e)}')">🗑 Xóa 4G</button></td>
-                </tr>`;
+                html += `<tr><td>${i + 1}</td><td>${esc(e)}</td><td><button class="btn btn-danger btn-sm" onclick="remove4G('${esc(e)}')">🗑 Xóa 4G</button></td></tr>`;
             });
             html += '</tbody></table>';
             wrapper.innerHTML = html;
@@ -1062,12 +772,72 @@
         async function remove4G(email) {
             if (!confirm(`Xóa quyền 4G của ${email}?`)) return;
             const res = await api('/api/admin/xoa-4g', 'POST', { email });
+            if (res.success) { await loadAllData(); render4GList(); toast('🗑 Đã xóa quyền 4G!', 'info'); }
+            else { toast('⚠️ Lỗi!', 'error'); }
+        }
+
+        // ===== 9. HOÀN TIỀN =====
+        async function hoanTien() {
+            const email = document.getElementById('hoanTienEmail').value.trim();
+            const amount = parseInt(document.getElementById('hoanTienAmount').value);
+            const msgEl = document.getElementById('hoanTienMsg');
+            if (!email || !amount || amount <= 0) {
+                msgEl.style.color = 'var(--danger)';
+                msgEl.textContent = '⚠️ Vui lòng nhập đầy đủ thông tin!';
+                return;
+            }
+            const res = await api('/api/admin/hoan-tien', 'POST', { email, amount });
             if (res.success) {
+                msgEl.style.color = 'var(--success)';
+                msgEl.textContent = '✅ ' + (res.message || 'Hoàn tiền thành công!');
+                document.getElementById('hoanTienEmail').value = '';
+                document.getElementById('hoanTienAmount').value = '';
                 await loadAllData();
-                render4GList();
-                toast('🗑 Đã xóa quyền 4G!', 'info');
             } else {
-                toast('⚠️ Lỗi!', 'error');
+                msgEl.style.color = 'var(--danger)';
+                msgEl.textContent = '❌ ' + (res.message || 'Lỗi!');
+            }
+        }
+
+        // ===== 10. ĐÓNG BĂNG WEB =====
+        async function loadDongBang() {
+            try {
+                const res = await api('/api/trang-thai-web');
+                updateDongBangUI(res.dongBang || false);
+            } catch(e) { updateDongBangUI(false); }
+        }
+
+        function updateDongBangUI(dongBang) {
+            document.getElementById('dongBangIcon').textContent = dongBang ? '🔒' : '✅';
+            document.getElementById('dongBangStatus').textContent = dongBang ? 'Web đang ĐÓNG BĂNG - Bảo trì' : 'Web đang HOẠT ĐỘNG bình thường';
+            document.getElementById('dongBangStatus').style.color = dongBang ? 'var(--danger)' : 'var(--success)';
+            document.getElementById('btnOn').style.opacity = dongBang ? '0.5' : '1';
+            document.getElementById('btnOff').style.opacity = dongBang ? '1' : '0.5';
+            document.getElementById('btnOn').style.pointerEvents = dongBang ? 'none' : 'auto';
+            document.getElementById('btnOff').style.pointerEvents = dongBang ? 'auto' : 'none';
+            const card = document.getElementById('dongBangCard');
+            if (card) {
+                const icon = card.querySelector('.card-icon');
+                if (icon) icon.textContent = dongBang ? '🔒' : '✅';
+                const old = card.querySelector('.badge');
+                if (old) old.remove();
+                if (dongBang) {
+                    const badge = document.createElement('div');
+                    badge.className = 'badge';
+                    badge.textContent = 'ON';
+                    badge.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+                    card.appendChild(badge);
+                }
+            }
+        }
+
+        async function setDongBang(dongBang) {
+            const res = await api('/api/admin/dong-bang-web', 'POST', { dongBang });
+            if (res.success) {
+                updateDongBangUI(dongBang);
+                await loadAllData();
+                updateAllBadges();
+                toast(dongBang ? '🔒 Web đã đóng băng! Người dùng không thể truy cập.' : '✅ Web đã mở khóa! Người dùng có thể truy cập.', dongBang ? 'error' : 'success');
             }
         }
 
@@ -1076,9 +846,7 @@
             if (e.target.id === 'wdModal') document.getElementById('wdModal').classList.remove('active');
         });
         document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') {
-                document.getElementById('wdModal').classList.remove('active');
-            }
+            if (e.key === 'Escape') document.getElementById('wdModal').classList.remove('active');
         });
     </script>
 </body>
