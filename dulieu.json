@@ -1,0 +1,78 @@
+{
+  "nguoiDung": [
+    {
+      "email": "sangtannguyen222@gmail.com",
+      "username": "harry",
+      "password": "0666",
+      "token": "ijWT35dcBS",
+      "phone": "",
+      "verified4G": false,
+      "createdAt": "22:14:17 13/7/2026",
+      "balance": 1700000,
+      "pendingMoney": 0,
+      "completedLinks": 2
+    }
+  ],
+  "linkVuot": [
+    {
+      "name": "link 1",
+      "url": "cc",
+      "url2": "âfsaf",
+      "reward": 1000000,
+      "createdAt": "22:14:35 13/7/2026"
+    }
+  ],
+  "lichSuLink": [
+    {
+      "email": "sangtannguyen222@gmail.com",
+      "linkName": "link 1 (Link 1)",
+      "linkUrl": "cc",
+      "username": "harry",
+      "time": "22:14:42 13/7/2026",
+      "timestamp": 1783955682231,
+      "status": "approved"
+    },
+    {
+      "email": "sangtannguyen222@gmail.com",
+      "linkName": "link 1 (Link 2)",
+      "linkUrl": "âfsaf",
+      "username": "harry",
+      "time": "22:15:02 13/7/2026",
+      "timestamp": 1783955702425,
+      "status": "approved"
+    }
+  ],
+  "lichSuRutTien": [
+    {
+      "email": "sangtannguyen222@gmail.com",
+      "username": "harry",
+      "type": "bank",
+      "bank": "BIDV",
+      "account": "5151351351515",
+      "owner": "hấhgsg",
+      "amount": 200000,
+      "time": "22:15:26 13/7/2026",
+      "status": "approved",
+      "note": "done nhé",
+      "seri": "",
+      "code": ""
+    },
+    {
+      "email": "sangtannguyen222@gmail.com",
+      "username": "harry",
+      "type": "card",
+      "cardType": "Mobifone",
+      "amount": 100000,
+      "time": "22:17:10 13/7/2026",
+      "status": "approved",
+      "note": "hi",
+      "seri": "cc",
+      "code": "cc"
+    }
+  ],
+  "yeuCauXacThucSDT": [],
+  "yeuCau4G": [],
+  "thongBao": [],
+  "gmailCam": [],
+  "rejectedLinks": []
+}
