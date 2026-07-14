@@ -37,7 +37,6 @@
         .bg-particle{position:absolute;border-radius:50%;animation:particleFloat linear infinite;opacity:0}
         @keyframes particleFloat{0%{transform:translateY(100vh) scale(0);opacity:0}5%{opacity:1}95%{opacity:1}100%{transform:translateY(-10vh) scale(1.5);opacity:0}}
 
-        /* AUTH PAGE */
         .auth-page{display:flex;width:100%;min-height:100vh;position:relative;z-index:1}
         .auth-page.hidden{display:none}
         .auth-left{width:50%;min-height:100vh;position:relative;overflow:hidden;display:flex;justify-content:center;align-items:center}
@@ -97,7 +96,6 @@
         .remember-me:hover{color:#fff}
         .remember-me input{accent-color:var(--accent);width:18px;height:18px;cursor:pointer}
 
-        /* MAIN PAGE */
         .main-page{display:none;width:100%;min-height:100vh;background:transparent;flex-direction:column;position:relative;z-index:1}
         .main-page.active{display:flex}
         .main-header{display:flex;justify-content:space-between;align-items:center;padding:14px 30px;background:rgba(10,20,45,0.7);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-bottom:1px solid var(--border);z-index:100;position:sticky;top:0}
@@ -170,7 +168,6 @@
         .tab-btn.active{background:linear-gradient(135deg,#2563eb,#1d4ed8);border-color:transparent;box-shadow:0 10px 25px rgba(30,80,200,0.4)}
         .tab-btn:hover:not(.active){background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.25)}
 
-        /* MODAL */
         .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:1000;justify-content:center;align-items:center}
         .modal-overlay.active{display:flex}
         .modal-box{background:rgba(15,25,60,0.95);border-radius:26px;padding:38px 34px;width:480px;max-width:94%;border:1.5px solid var(--border);box-shadow:0 40px 80px rgba(0,0,0,0.8),0 0 80px rgba(59,130,246,0.2);animation:modalIn 0.5s cubic-bezier(0.16,1,0.3,1);position:relative;backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);max-height:85vh;overflow-y:auto}
@@ -205,7 +202,6 @@
         <div class="bg-particles" id="bgParticles"></div>
     </div>
 
-    <!-- AUTH PAGE -->
     <div class="auth-page" id="authPage">
         <div class="auth-left">
             <img class="bg-image" src="https://i.pinimg.com/736x/5d/74/8c/5d748cc928b3ffe353293725b1596efb.jpg" alt="Background">
@@ -251,7 +247,6 @@
         </div>
     </div>
 
-    <!-- MAIN PAGE -->
     <div class="main-page" id="mainPage">
         <div class="main-header">
             <div class="brand-logo" onclick="goToHome()">Crylink</div>
@@ -286,7 +281,6 @@
         </div>
     </div>
 
-    <!-- MODALS -->
     <div class="modal-overlay" id="forgotModal"><div class="modal-box" id="forgotModalContent"></div></div>
     <div class="modal-overlay" id="tokenModal">
         <div class="modal-box" style="text-align:center;">
@@ -307,11 +301,30 @@
     <div class="modal-overlay" id="fixbugModal"><div class="modal-box" id="fixbugModalContent"></div></div>
 
     <script>
-        // ===== GLOBAL STATE =====
         let currentUser = null;
         let currentTaskLink = null;
         let countdownInterval = null;
         const API = '';
+
+        // ===== KIỂM TRA ĐÓNG BĂNG WEB =====
+        async function checkDongBang() {
+            try {
+                const res = await api('/api/trang-thai-web');
+                if (res.dongBang) {
+                    document.body.innerHTML = `
+                        <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:99999;display:flex;justify-content:center;align-items:center;flex-direction:column;color:#fff;font-family:'Segoe UI',sans-serif;pointer-events:all;">
+                            <div style="font-size:100px;margin-bottom:30px;">🔒</div>
+                            <h1 style="font-size:3rem;font-weight:900;text-align:center;margin-bottom:20px;background:linear-gradient(135deg,#ef4444,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">WEB TẠM ĐÓNG BĂNG</h1>
+                            <p style="font-size:1.5rem;color:#f87171;text-align:center;max-width:600px;line-height:1.6;">Để xử lí lỗi hệ thống.<br>Vui lòng quay lại sau!</p>
+                            <div style="margin-top:40px;font-size:80px;animation:bounce 1s infinite;">⏳</div>
+                        </div>
+                        <style>@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-30px)}}</style>
+                    `;
+                    return true;
+                }
+                return false;
+            } catch(e) { return false; }
+        }
 
         // ===== BACKGROUND PARTICLES =====
         (function(){
@@ -368,6 +381,10 @@
 
         // ===== INIT =====
         window.addEventListener('DOMContentLoaded', async ()=>{
+            // Kiểm tra đóng băng web
+            const biDongBang = await checkDongBang();
+            if (biDongBang) return;
+
             const session = getSession();
             if(session && session.token){
                 const res = await api('/api/dang-nhap', 'POST', { email: session.email, password: session.password });
@@ -560,7 +577,6 @@
                     ${!isRead?'<span style="width:10px;height:10px;background:var(--danger);border-radius:50%;display:inline-block;"></span>':''}
                 </div>`;
             });
-            // Mark all as read
             notifs.forEach(n=>{ if(!readNotifs.includes(n.id)) readNotifs.push(n.id); });
             localStorage.setItem('cl_rn_'+currentUser.email, JSON.stringify(readNotifs));
         }
@@ -619,9 +635,10 @@
             }
             html += '<div class="link-cards-container">';
             links.forEach(link => {
+                const linkCreatedAt = link.createdAt || '';
                 const rejected = rejectedLinks.includes(link.name);
-                const c1 = linkHist.filter(h => h.linkName === link.name + ' (Link 1)' && h.status === 'approved').length;
-                const c2 = link.url2 ? linkHist.filter(h => h.linkName === link.name + ' (Link 2)' && h.status === 'approved').length : 0;
+                const c1 = linkHist.filter(h => h.linkName === link.name + ' (Link 1)' && h.status === 'approved' && h.linkCreatedAt === linkCreatedAt).length;
+                const c2 = link.url2 ? linkHist.filter(h => h.linkName === link.name + ' (Link 2)' && h.status === 'approved' && h.linkCreatedAt === linkCreatedAt).length : 0;
                 const total = c1 + c2;
                 const max = link.url2 ? 2 : 1;
                 const disabled = total >= max || rejected;
@@ -678,12 +695,7 @@
             toast('✅ Đã gửi yêu cầu duyệt!');
         }
         async function dismissRejection(linkName){
-            const dataRes = await api('/api/admin/data');
-            if(dataRes.rejectedLinks){
-                dataRes.rejectedLinks = dataRes.rejectedLinks.filter(r => !(r.email === currentUser.email && r.linkName === linkName));
-                // Note: This is a client-side only dismissal since we can't modify server data directly from client
-                // In production, you'd need an API endpoint for this
-            }
+            toast('✅ Đã đóng thông báo!');
             loadVuotlink(document.getElementById('contentMain'));
         }
 
@@ -790,7 +802,6 @@
             }
         }
 
-        // Close modals on overlay click
         document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('active')}));
         document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('active'))});
     </script>
